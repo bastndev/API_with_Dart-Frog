@@ -4,13 +4,14 @@ import 'package:dart_frog/dart_frog.dart';
 
 Future<Response> onRequest(RequestContext context) async {
   switch (context.request.method) {
+    //-FIXME: Delete
     case HttpMethod.delete:
       final headers = context.request.headers;
       print('Headers $headers ');
       final body = context.request.json();
       print('Body of request $body');
       return Response(statusCode: 201);
-
+    //-FIXME: Get
     case HttpMethod.get:
       return Response(
         body: jsonEncode({
@@ -18,7 +19,7 @@ Future<Response> onRequest(RequestContext context) async {
         }),
         headers: {'Content-Type': 'application/json'},
       );
-
+    //-FIXME: Post
     case HttpMethod.post:
       final headers = context.request.headers;
       print('Headers $headers ');
@@ -26,7 +27,7 @@ Future<Response> onRequest(RequestContext context) async {
       print('Body of request $body');
       return Response(
           body: jsonEncode({'DateTime': DateTime.now().toIso8601String()}));
-
+    //-FIXME: Put
     case HttpMethod.put:
       final headers = context.request.headers;
       print('Headers $headers ');
