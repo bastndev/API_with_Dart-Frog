@@ -8,8 +8,15 @@ Future<Response> onRequest(RequestContext context) async {
     case HttpMethod.delete:
       final headers = context.request.headers;
       print('Headers $headers ');
+      try{
       final body = context.request.json();
       print('Body of request $body');
+
+      }catch(e){
+        return Response(statusCode:  400, body: jsonEncode({
+          'error' : 'The body send is incorrect'
+        }));
+      }
       return Response(statusCode: 201);
     //-FIXME: Get
     case HttpMethod.get:
