@@ -21,6 +21,10 @@ class User {
     };
   }
 
+  factory User.create(Map<String, dynamic> map) {
+    
+    return User.fromMap(map);
+  }
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
       id: map['id'] as String,

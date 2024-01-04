@@ -1,6 +1,9 @@
 import 'dart:convert';
 
 import 'package:dart_frog/dart_frog.dart';
+import 'package:uuid/uuid.dart';
+
+import '../../models/user.dart';
 
 Future<Response> onRequest(RequestContext context) async {
   final method = context.request.method;
@@ -20,6 +23,9 @@ Future<Response> onRequest(RequestContext context) async {
   }
 
   // 2-TODO: Create user ID
+  final userID =  const Uuid().v4();
+  body['id'] = userID;
+  final user = User.fromMap(body);
 
   // 3-TODO: The email doesn't exist in the data base
 
