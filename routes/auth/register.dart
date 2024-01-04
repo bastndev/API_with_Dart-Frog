@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dart_frog/dart_frog.dart';
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../database/connection/database_client.dart';
@@ -44,6 +45,8 @@ Future<Response> onRequest(RequestContext context) async {
   await userRepository.create(user);
 
   // 5-TODO: Generate the authentication token
+  final jwt = JWT({'uid': userID});
+  final toke = jwt.sign(SecretKey('dart'));
 
   // 6-TODO: Enter the authentication token for the user
 
