@@ -19,9 +19,9 @@ Future<Response> onRequest(RequestContext context) async {
     );
   }
 
-  // 2-TODO: The email doesn't exist in the data base
+  // 2-TODO: Create user ID
 
-  // 3-TODO: Create user ID
+  // 3-TODO: The email doesn't exist in the data base
 
   // 4-TODO: Enter the number in data base
 
