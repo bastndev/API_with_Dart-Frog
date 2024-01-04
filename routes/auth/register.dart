@@ -3,7 +3,10 @@ import 'dart:convert';
 import 'package:dart_frog/dart_frog.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../database/connection/database_client.dart';
 import '../../models/user.dart';
+import '../../repositories/user_repository.dart';
+// import '../../repositories/user_repository.dart';
 
 Future<Response> onRequest(RequestContext context) async {
   final method = context.request.method;
@@ -23,13 +26,22 @@ Future<Response> onRequest(RequestContext context) async {
   }
 
   // 2-TODO: Create user ID
-  final userID =  const Uuid().v4();
+  final userID = const Uuid().v4();
   body['id'] = userID;
   final user = User.create(body);
 
   // 3-TODO: The email doesn't exist in the data base
+  final userRepository = UserRepository(DatabaseClient.instance!);
+  final existEmail = await userRepository.checkIfEmailExists(user.email);
+  if (existEmail) {
+    return Response(
+      statusCode: 409,
+      body: jsonEncode({'error': ' Email already'}),
+    );
+  }
 
   // 4-TODO: Enter the number in data base
+  await userRepository.create(user);
 
   // 5-TODO: Generate the authentication token
 
