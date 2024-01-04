@@ -26,3 +26,13 @@ Response onRequest(RequestContext context) {
 
   return Response(body: 'This is a new route!');
 }
+
+bool _isBodyValid(Map<String, String> body) {
+  final allowedFields = ['username', 'password', 'email'];
+  for (final field in allowedFields) {
+    if (body[field] == null) {
+      return false;
+    }
+  }
+  return true;
+}
