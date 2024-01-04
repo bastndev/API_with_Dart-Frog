@@ -1,4 +1,8 @@
 // ignore_for_file: avoid_dynamic_calls
+import 'dart:convert';
+
+import 'package:dart_frog/dart_frog.dart';
+
 import '../database/connection/database_client.dart';
 import '../models/user.dart';
 
@@ -9,8 +13,15 @@ class UserRepository {
   Future<void> create(User user) async {
     const sql =
         'insert into users(id, name, email, password) values(:id, :name, :email, :password)';
-
-    await db.execute(sql, user.toMap());
+    try {
+      await db.execute(sql, user.toMap());
+    } catch (_) {
+      // ignore: only_throw_errors
+      throw Response(
+        statusCode: 500,
+        body: jsonEncode({'error': 'error'}),
+      );
+    }
   }
 
   Future<bool> checkIfEmailExists(String email) async {

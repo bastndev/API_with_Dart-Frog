@@ -39,7 +39,7 @@ Future<Response> onRequest(RequestContext context) async {
   if (existEmail) {
     return Response(
       statusCode: 409,
-      body: jsonEncode({'error': ' Email already'}),
+      body: jsonEncode({'error': ' Email Register already exists'}),
     );
   }
 
