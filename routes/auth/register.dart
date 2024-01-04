@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:dart_frog/dart_frog.dart';
 
-Future <Response> onRequest(RequestContext context) async {
+Future<Response> onRequest(RequestContext context) async {
   final method = context.request.method;
   if (method != HttpMethod.post) {
     return Response(
@@ -11,6 +11,13 @@ Future <Response> onRequest(RequestContext context) async {
     );
   }
   // 1-TODO: check the body
+  final body = await context.request.json() as Map<String, String>;
+  if (!_isBodyValid(body)) {
+    return Response(
+      statusCode: 400,
+      body: jsonEncode({'error': 'Invalid body'}),
+    );
+  }
 
   // 2-TODO: The email doesn't exist in the data base
 
