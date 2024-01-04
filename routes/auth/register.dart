@@ -5,6 +5,7 @@ import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../database/connection/database_client.dart';
+import '../../models/access_token.dart';
 import '../../models/user.dart';
 import '../../repositories/user_repository.dart';
 // import '../../repositories/user_repository.dart';
@@ -46,7 +47,15 @@ Future<Response> onRequest(RequestContext context) async {
 
   // 5-TODO: Generate the authentication token
   final jwt = JWT({'uid': userID});
-  final toke = jwt.sign(SecretKey('dart'));
+  final expireInDuration = const Duration(hours: 12);
+  final token = jwt.sign(SecretKey('dart'), expiresIn: expireInDuration);
+  final date = DateTime.now().add(expireInDuration);
+  final accessToken = AccessToken(
+    id: const Uuid().v4(),
+    token: token,
+    expiration: date,
+    userId: userID,
+  );
 
   // 6-TODO: Enter the authentication token for the user
 
