@@ -23,6 +23,6 @@ CREATE TABLE access_tokens (
     id VARCHAR(255) PRIMARY KEY,
     user_id VARCHAR(255),
     token VARCHAR(500) NOT NULL,
-    expiration_date TIMESTAMP DEFAULT (NOW() + INTERVAL 2 HOUR),
+    expiration_date TIMESTAMP DEFAULT (NOW() + INTERVAL 12 HOUR),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
