@@ -25,7 +25,7 @@ Future<Response> onRequest(RequestContext context) async {
   // 2-TODO: Create user ID
   final userID =  const Uuid().v4();
   body['id'] = userID;
-  final user = User.fromMap(body);
+  final user = User.create(body);
 
   // 3-TODO: The email doesn't exist in the data base
 

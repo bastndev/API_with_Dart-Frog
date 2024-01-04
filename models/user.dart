@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:crypto/crypto.dart' as crypto;
+// import 'package:mysql_client/mysql_protocol.dart' as mysql;
 
 class User {
   String id;
@@ -22,9 +24,11 @@ class User {
   }
 
   factory User.create(Map<String, dynamic> map) {
-    
+    final digest = crypto.sha1.convert((map['password'] as String).codeUnits);
+    map['password'] = digest.toString();
     return User.fromMap(map);
   }
+
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
       id: map['id'] as String,
