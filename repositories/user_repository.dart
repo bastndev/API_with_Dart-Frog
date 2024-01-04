@@ -1,9 +1,12 @@
 // ignore_for_file: avoid_dynamic_calls
-import 'dart:convert';
+// import 'dart:convert';
 
-import 'package:dart_frog/dart_frog.dart';
+// import 'package:dart_frog/dart_frog.dart';
+import 'package:mysql_client/exception.dart';
 
 import '../database/connection/database_client.dart';
+import '../exections/duplicate_key_entry.dart';
+import '../exections/server_exception.dart';
 import '../models/user.dart';
 
 class UserRepository {
@@ -15,12 +18,14 @@ class UserRepository {
         'insert into users(id, name, email, password) values(:id, :name, :email, :password)';
     try {
       await db.execute(sql, user.toMap());
-    } catch (_) {
-      // ignore: only_throw_errors
-      throw Response(
-        statusCode: 500,
-        body: jsonEncode({'error': 'error'}),
-      );
+    }
+    on MySQLServerException catch(err){
+      if(err.errorCode == 1062){
+        throw const DuplicateKeyEntry('User name exists in the database');
+      }
+    } 
+    catch (_) {
+      throw const ServerException('Something has gone wrong');
     }
   }
 
