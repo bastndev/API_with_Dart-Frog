@@ -17,7 +17,7 @@ class AccessToken {
     return {
       'id': id,
       'token': token,
-      'expiration': expiration.toIso8601String(),
+      'expiration_date': expiration.toIso8601String(),
       'user_id': userId,
     };
   }
@@ -26,7 +26,7 @@ class AccessToken {
     return AccessToken(
       id: map['id'] as String,
       token: map['token'] as String,
-      expiration: DateTime.parse(map['expirationDate'] as String),
+      expiration: DateTime.parse(map['expiration_date'] as String),
       userId: map['user_id'] as String,
     );
   }
