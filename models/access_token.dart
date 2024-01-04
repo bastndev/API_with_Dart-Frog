@@ -34,7 +34,7 @@ class AccessToken {
   String toJson() => json.encode(toMap());
 
   factory AccessToken.fromJson(String source) =>
-      AccessToken.fromMap(json.decode(source));
+      AccessToken.fromMap(json.decode(source)as Map<String, dynamic>);
 
   @override
   String toString() {
