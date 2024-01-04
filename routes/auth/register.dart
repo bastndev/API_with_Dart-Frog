@@ -10,5 +10,19 @@ Response onRequest(RequestContext context) {
       body: jsonEncode({'error': 'Invalid method'}),
     );
   }
+  // 1-TODO: check the body
+
+  // 2-TODO: The email doesn't exist in the data base
+
+  // 3-TODO: Create user ID
+
+  // 4-TODO: Enter the number in data base
+
+  // 5-TODO: Generate the authentication token
+
+  // 6-TODO: Enter the authentication token for the user
+
+  // 7-TODO: sed the request
+
   return Response(body: 'This is a new route!');
 }
