@@ -5,7 +5,7 @@ class AccessToken {
   String token;
   DateTime expiration;
   String userId;
-  
+
   AccessToken({
     required this.id,
     required this.token,
@@ -34,7 +34,7 @@ class AccessToken {
   String toJson() => json.encode(toMap());
 
   factory AccessToken.fromJson(String source) =>
-      AccessToken.fromMap(json.decode(source)as Map<String, dynamic>);
+      AccessToken.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
