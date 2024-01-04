@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:dart_frog/dart_frog.dart';
 
-Response onRequest(RequestContext context) {
+Future <Response> onRequest(RequestContext context) async {
   final method = context.request.method;
   if (method != HttpMethod.post) {
     return Response(
