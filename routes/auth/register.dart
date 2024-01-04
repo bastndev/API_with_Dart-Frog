@@ -7,6 +7,7 @@ import 'package:uuid/uuid.dart';
 import '../../database/connection/database_client.dart';
 import '../../models/access_token.dart';
 import '../../models/user.dart';
+import '../../repositories/auth_repository.dart';
 import '../../repositories/user_repository.dart';
 // import '../../repositories/user_repository.dart';
 
@@ -58,10 +59,11 @@ Future<Response> onRequest(RequestContext context) async {
   );
 
   // 6-TODO: Enter the authentication token for the user
+  final authRepository = AuthRepository(DatabaseClient.instance!);
+  await authRepository.create(accessToken);
 
   // 7-TODO: sed the request
-
-  return Response(body: 'This is a new route!');
+  return Response(body: accessToken.toJson());
 }
 
 bool _isBodyValid(Map<String, String> body) {
