@@ -20,4 +20,13 @@ class JWTManager {
     final jwtData = JWTData(token, DateTime.now().add(duration));
     return jwtData;
   }
+
+  JWT verify(String token){
+    try {
+      final jwt = JWT.verify(token, SecretKey(key));
+      return jwt;
+    } catch (err) {
+      rethrow;
+    }
+  }
 }
