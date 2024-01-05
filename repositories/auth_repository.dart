@@ -1,4 +1,5 @@
 import '../database/connection/database_client.dart';
+import '../exections/not_foun_exceptions.dart';
 import '../models/access_token.dart';
 
 class AuthRepository {
@@ -29,4 +30,16 @@ class AuthRepository {
         'where id = "${accessToken.id}"';
     await db.execute(sql, <String, dynamic>{});
   }
+
+  getAccessByToken() {}
+
+/*   Future<AccessToken> getAccessByToken(dynamic token) async {
+    final sql = 'select * from access_tokens where'
+        'token  = "${token}"limit 1';
+    final results = await db.execute(sql, <String, dynamic>{});
+    if (results.rows.isEmpty) {
+      throw const NotFoundException('Missing access token');
+    }
+    return AccessToken.fromMap(results.rows.first.typedAssoc());
+  } */
 }

@@ -41,6 +41,7 @@ Future<Response> onRequest(RequestContext context) async {
     accessToken
       ..token = token
       ..expirationDate = date;
+    await authRepo.renew(accessToken);
   }
 
   //5-TODO: return response
