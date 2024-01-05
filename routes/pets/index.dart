@@ -9,8 +9,8 @@ Future<Response> onRequest(RequestContext context) async {
   final method = context.request.method;
   if (method == HttpMethod.post) {
     return _posPet(context);
-  } else if (method == HttpMethod.get) {//Lo normal sea hacer una paginacion 
-
+  } else if (method == HttpMethod.get) {
+    //Lo normal sea hacer una paginacion
   }
 
   return Response(body: 'Bajo construction');
@@ -55,4 +55,32 @@ bool _onPostPetValidation(Map<String, dynamic> body) {
     }
   }
   return true;
+}
+
+String _getSearchQuery(Map<String, String> params) {
+  final allowedParamas = [
+    'name',
+    'age',
+    'type',
+  ];
+
+  final addedParams = <String>[];
+
+  for (final param in params.keys) {
+    if (allowedParamas.contains(param)) {
+      addedParams.add(param);
+    }
+  }
+
+  var sql = 'SELECT * FROM  pets';
+  if(addedParams.isNotEmpty){
+    sql = '$sql WHERE';
+  }
+
+  for(var i = 0; i < addedParams.length; i++){
+    final param = addedParams[i];
+    final value = params[param];
+    sql = '$sql $param LIKE "%$value%" OR ';
+  }
+  return sql;
 }
