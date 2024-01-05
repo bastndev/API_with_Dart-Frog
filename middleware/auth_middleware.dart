@@ -19,9 +19,8 @@ Middleware bearerAutorizationMiddleware() {
         final uidMap = jwt.payload;
         print(uidMap);
       } catch (error) {
-        return Response(statusCode: 409,
-        body: jsonEncode({'error': 'Authorization no valid'})
-        );
+        return Response(
+            statusCode: 400, body: jsonEncode({'error': 'No valid petition'}));
       }
 
       return handler(context);
