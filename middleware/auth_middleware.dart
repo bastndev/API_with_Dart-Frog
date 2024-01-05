@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:dart_frog/dart_frog.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 
+import '../utils/jwt_manager.dart';
+
 Middleware bearerAutorizationMiddleware() {
   return (handler) {
     return (context) {
@@ -15,7 +17,8 @@ Middleware bearerAutorizationMiddleware() {
       print(headers['Authorization']);
       final token = (headers['Authorization'])!.split('Bearer')[1];
       try {
-        final jwt = JWT.verify(token, SecretKey('dart'));
+        final jwtManager = context.read<JWTManager>();
+        final jwt = jwtManager.verify(token);
         final uidMap = jwt.payload;
         print(uidMap);
       } catch (error) {
