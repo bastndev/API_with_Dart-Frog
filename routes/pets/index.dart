@@ -7,9 +7,11 @@ import '../../repositories/pet_repository.dart';
 
 Future<Response> onRequest(RequestContext context) async {
   final method = context.request.method;
+  print(context.request.uri.queryParameters);
   if (method == HttpMethod.post) {
     return _posPet(context);
   } else if (method == HttpMethod.get) {
+    print(_getSearchQuery(context.request.uri.queryParameters));
     //Lo normal sea hacer una paginacion
   }
 
@@ -73,14 +75,18 @@ String _getSearchQuery(Map<String, String> params) {
   }
 
   var sql = 'SELECT * FROM  pets';
-  if(addedParams.isNotEmpty){
+  if (addedParams.isNotEmpty) {
     sql = '$sql WHERE';
   }
 
-  for(var i = 0; i < addedParams.length; i++){
+  for (var i = 0; i < addedParams.length; i++) {
     final param = addedParams[i];
     final value = params[param];
-    sql = '$sql $param LIKE "%$value%" OR ';
+    if (i == addedParams.length - 1) {
+      sql = '$sql $param LIKE "%$value%"';
+    } else {
+      sql = '$sql $param LIKE "%$value%" OR ';
+    }
   }
   return sql;
 }
