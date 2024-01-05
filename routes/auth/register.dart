@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:dart_frog/dart_frog.dart';
-import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
+// import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../database/connection/database_client.dart';
+// import '../../database/connection/database_client.dart';
 import '../../exections/base_api_exeptions.dart';
 import '../../models/access_token.dart';
 import '../../models/user.dart';
@@ -36,8 +36,6 @@ Future<Response> onRequest(RequestContext context) async {
   final user = User.create(body);
 
   // 3-TODO: The email doesn't exist in the data base
-  final authRepo = context.read<AuthRepository>();
-
   final userRepository = context.read<UserRepository>();
   final existEmail = await userRepository.checkIfEmailExists(user.email);
   if (existEmail) {
@@ -69,7 +67,7 @@ Future<Response> onRequest(RequestContext context) async {
   );
 
   // 6-TODO: Enter the authentication token for the user
-  final authRepository = AuthRepository(DatabaseClient.instance!);
+  final authRepository = context.read<AuthRepository>();
   await authRepository.create(accessToken);
 
   // 7-TODO: sed the request
