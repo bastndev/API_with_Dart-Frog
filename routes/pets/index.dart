@@ -60,12 +60,8 @@ bool _onPostPetValidation(Map<String, dynamic> body) {
 }
 
 String _getSearchQuery(Map<String, String> params) {
-  final allowedParamas = [
-    'name',
-    'age',
-    'type',
-  ];
-
+  final allowedParamas = ['name', 'age', 'type'];
+  final paramsTypes = {'name': String, 'age': int, 'type': String};
   final addedParams = <String>[];
 
   for (final param in params.keys) {
@@ -82,10 +78,12 @@ String _getSearchQuery(Map<String, String> params) {
   for (var i = 0; i < addedParams.length; i++) {
     final param = addedParams[i];
     final value = params[param];
+    final isString = paramsTypes[param] == String;
+    final searchQuery = isString ? 'LIKE "%$value%"' : '= $value';
     if (i == addedParams.length - 1) {
-      sql = '$sql $param LIKE "%$value%"';
+      sql = '$sql $param $searchQuery';
     } else {
-      sql = '$sql $param LIKE "%$value%" OR ';
+      sql = '$sql $param $searchQuery OR ';
     }
   }
   return sql;
