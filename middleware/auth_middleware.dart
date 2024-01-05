@@ -5,7 +5,7 @@ import 'package:dart_frog/dart_frog.dart';
 
 import '../utils/jwt_manager.dart';
 
-Middleware bearerAutorizationMiddleware() {
+Middleware bearerAuthorizationMiddleware() {
   return (handler) {
     return (context) {
       final headers = context.request.headers;
