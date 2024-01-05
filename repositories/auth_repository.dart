@@ -1,5 +1,5 @@
 import '../database/connection/database_client.dart';
-import '../exections/not_foun_exceptions.dart';
+// import '../exections/not_foun_exceptions.dart';
 import '../models/access_token.dart';
 
 class AuthRepository {
@@ -31,9 +31,11 @@ class AuthRepository {
     await db.execute(sql, <String, dynamic>{});
   }
 
+  // ignore: inference_failure_on_function_return_type
   getAccessByToken(String token) async {
     final sql = 'select * from access_tokens where'
         'token  = "${token}"limit 1';
+    // ignore: unused_local_variable
     final results = await db.execute(sql,<String, dynamic>{});
     
   }

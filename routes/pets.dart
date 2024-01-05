@@ -3,9 +3,8 @@ import 'dart:convert';
 import 'package:dart_frog/dart_frog.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 
-import '../../database/connection/database_client.dart';
-import '../../repositories/auth_repository.dart';
-
+import '../database/connection/database_client.dart';
+import '../repositories/auth_repository.dart';
 
 Future<Response> onRequest(RequestContext context) async {
   final headers = context.request.headers;
