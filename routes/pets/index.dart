@@ -28,7 +28,6 @@ Future<Response> onRequest(RequestContext context) async {
 
     final petRepository = context.read<PetRepository>();
     await petRepository.create(body);
-
     return Response(body: jsonEncode({'success': true}));
   }
   return Response(body: 'Bajo construction');
