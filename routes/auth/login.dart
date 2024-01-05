@@ -26,14 +26,14 @@ Future <Response> onRequest(RequestContext context) async{
   //3-TODO: getByCredentials 
   final authRepo = AuthRepository(DatabaseClient.instance!);
   final digest = crypto.sha1.convert(body['password'].toString().codeUnits);
-  await authRepo.getByCredentials(body['email']as String, body['password']as String);
+  final accessToken = await authRepo.getByCredentials(body['email']as String, body['password']as String);
   body['password'] = digest.toString();
-  
+
   //4-TODO: check token validity 
 
   //5-TODO: return response
 
-  return Response(body: 'This is a new route!');
+  return Response(body: accessToken.toJson());
 }
 
 bool _isBodyValid(Map<String, String> body) {
