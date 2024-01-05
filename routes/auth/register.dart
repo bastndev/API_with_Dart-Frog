@@ -5,6 +5,7 @@ import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../database/connection/database_client.dart';
+import '../../exections/base_api_exeptions.dart';
 import '../../models/access_token.dart';
 import '../../models/user.dart';
 import '../../repositories/auth_repository.dart';
@@ -44,7 +45,13 @@ Future<Response> onRequest(RequestContext context) async {
   }
 
   // 4-TODO: Enter the number in data base
-  await userRepository.create(user);
+  try {
+    await userRepository.create(user);
+  } catch (error) {
+    if (error is BaseApiException ){
+      return error.response();
+    }
+  }
 
   // 5-TODO: Generate the authentication token
   final jwt = JWT({'uid': userID});
