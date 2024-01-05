@@ -22,4 +22,11 @@ class AuthRepository {
     final jsonMap = results.rows.first.typedAssoc() as Map<String, dynamic>;
     return AccessToken.fromMap(jsonMap);
   }
+
+  Future<void> renew(AccessToken accessToken) async {
+    final sql = 'UPDATE access_token set token = "${accessToken.token}",'
+        'expiration_date = "${accessToken.expirationDate.toIso8601String()}"'
+        'where id = "${accessToken.id}"';
+    await db.execute(sql, <String, dynamic>{});
+  }
 }

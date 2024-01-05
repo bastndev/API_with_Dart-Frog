@@ -5,7 +5,9 @@ class AccessToken {
   String token;
   DateTime expiration;
   String userId;
-
+  
+  DateTime get expirationDate => expiration;
+  
   AccessToken({
     required this.id,
     required this.token,
