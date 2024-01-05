@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart' as crypto;
 import 'package:dart_frog/dart_frog.dart';
-import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
+// import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 
 // import '../../database/connection/database_client.dart';
 import '../../repositories/auth_repository.dart';
+import '../../utils/jwt_manager.dart';
 
 Future<Response> onRequest(RequestContext context) async {
   final method = context.request.method;
@@ -34,13 +35,12 @@ Future<Response> onRequest(RequestContext context) async {
 
   //4-TODO: check token validity
   if (accessToken.expiration.isBefore(DateTime.now())) {
-    final jwt = JWT({'uid': accessToken.userId});
-    final expireInDuration = const Duration(hours: 12);
-    final token = jwt.sign(SecretKey('dart'), expiresIn: expireInDuration);
-    final date = DateTime.now().add(expireInDuration);
+    final jwtManager = context.read<JWTManager>();
+    final payload = {'uid': accessToken.userId};
+    final jwtData =jwtManager.sing(payload);
     accessToken
-      ..token = token
-      ..expirationDate = date;
+      ..token = jwtData.token
+      ..expirationDate = jwtData.expirationDate;
     await authRepo.renew(accessToken);
   }
 
