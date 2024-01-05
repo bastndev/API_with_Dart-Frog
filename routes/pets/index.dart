@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dart_frog/dart_frog.dart';
+import 'package:uuid/uuid.dart';
 
 Future<Response> onRequest(RequestContext context) async {
   final method = context.request.method;
@@ -13,6 +14,16 @@ Future<Response> onRequest(RequestContext context) async {
       );
     }
 
+    if (!_onPostPetValidation(body as Map<String, dynamic>)) {
+      return Response(
+        statusCode: 400,
+        body: jsonEncode({'error': 'Body petition incorrect'}),
+      );
+    }
+
+    final id = const Uuid().v4();
+    body['id'] = id;
+
     return Response(body: jsonEncode({'success': true}));
   }
   return Response(body: 'Bajo construction');
@@ -24,6 +35,11 @@ bool _onPostPetValidation(Map<String, dynamic> body) {
   for (final field in allowedFields) {
     final value = body[field];
     if (value == null) {
+      return false;
+    }
+    if (field == 'base64image' &&
+        value is String &&
+        !value.contains('data:image')) {
       return false;
     }
   }
