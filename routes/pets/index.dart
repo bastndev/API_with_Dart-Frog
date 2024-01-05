@@ -11,7 +11,9 @@ Future<Response> onRequest(RequestContext context) async {
   if (method == HttpMethod.post) {
     return _posPet(context);
   } else if (method == HttpMethod.get) {
-    print(_getSearchQuery(context.request.uri.queryParameters));
+    final sql = _getSearchQuery(context.request.uri.queryParameters);
+    final petRepository = context.read<PetRepository>();
+    final pets = await petRepository .search(sql);
     //Lo normal sea hacer una paginacion
   }
 
