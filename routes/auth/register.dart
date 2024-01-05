@@ -10,6 +10,7 @@ import '../../models/access_token.dart';
 import '../../models/user.dart';
 import '../../repositories/auth_repository.dart';
 import '../../repositories/user_repository.dart';
+import '../../utils/jwt_manager.dart';
 // import '../../repositories/user_repository.dart';
 
 Future<Response> onRequest(RequestContext context) async {
@@ -35,7 +36,9 @@ Future<Response> onRequest(RequestContext context) async {
   final user = User.create(body);
 
   // 3-TODO: The email doesn't exist in the data base
-  final userRepository = UserRepository(DatabaseClient.instance!);
+  final authRepo = context.read<AuthRepository>();
+
+  final userRepository = context.read<UserRepository>();
   final existEmail = await userRepository.checkIfEmailExists(user.email);
   if (existEmail) {
     return Response(
@@ -54,14 +57,14 @@ Future<Response> onRequest(RequestContext context) async {
   }
 
   // 5-TODO: Generate the authentication token
-  final jwt = JWT({'uid': userID});
-  final expireInDuration = const Duration(hours: 12);
-  final token = jwt.sign(SecretKey('dart'), expiresIn: expireInDuration);
-  final date = DateTime.now().add(expireInDuration);
+  final jwtManager = context.read<JWTManager>();
+    final payload = {'uid': userID};
+    final jwtData =jwtManager.sing(payload);
+
   final accessToken = AccessToken(
     id: const Uuid().v4(),
-    token: token,
-    expiration: date,
+    token: jwtData.token,
+    expiration: jwtData.expirationDate,
     userId: userID,
   );
 
