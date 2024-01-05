@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:dart_frog/dart_frog.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../repositories/pet_repository.dart';
+
 Future<Response> onRequest(RequestContext context) async {
   final method = context.request.method;
   if (method == HttpMethod.post) {
@@ -23,6 +25,9 @@ Future<Response> onRequest(RequestContext context) async {
 
     final id = const Uuid().v4();
     body['id'] = id;
+
+    final petRepository = context.read<PetRepository>();
+    await petRepository.create(body);
 
     return Response(body: jsonEncode({'success': true}));
   }
