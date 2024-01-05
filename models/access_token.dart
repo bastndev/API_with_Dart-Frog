@@ -13,6 +13,9 @@ class AccessToken {
     required this.userId,
   });
 
+
+  set expirationDate(DateTime expirationDate) {}
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,
