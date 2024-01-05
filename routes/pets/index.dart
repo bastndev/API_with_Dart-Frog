@@ -9,7 +9,10 @@ Future<Response> onRequest(RequestContext context) async {
   final method = context.request.method;
   if (method == HttpMethod.post) {
     return _posPet(context);
+  } else if (method == HttpMethod.get) {//Lo normal sea hacer una paginacion 
+
   }
+
   return Response(body: 'Bajo construction');
 }
 
