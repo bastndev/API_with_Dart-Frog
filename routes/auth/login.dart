@@ -4,7 +4,7 @@ import 'package:crypto/crypto.dart' as crypto;
 import 'package:dart_frog/dart_frog.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 
-import '../../database/connection/database_client.dart';
+// import '../../database/connection/database_client.dart';
 import '../../repositories/auth_repository.dart';
 
 Future<Response> onRequest(RequestContext context) async {
@@ -26,7 +26,7 @@ Future<Response> onRequest(RequestContext context) async {
   }
 
   //3-TODO: getByCredentials
-  final authRepo = AuthRepository(DatabaseClient.instance!);
+  final authRepo = context.read<AuthRepository>();
   final digest = crypto.sha1.convert(body['password'].toString().codeUnits);
   final accessToken = await authRepo.getByCredentials(
       body['email'] as String, body['password'] as String);
