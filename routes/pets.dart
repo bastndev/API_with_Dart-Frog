@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 import 'package:dart_frog/dart_frog.dart';
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 
 import '../database/connection/database_client.dart';
 import '../repositories/auth_repository.dart';
 
-Future <Response> onRequest(RequestContext context) async {
+Future<Response> onRequest(RequestContext context) async {
   final headers = context.request.headers;
   if (headers['Authorization'] == null) {
     return Response(
@@ -13,6 +14,9 @@ Future <Response> onRequest(RequestContext context) async {
   }
   final authoRepo = AuthRepository(DatabaseClient.instance!);
   print(headers['Authorization']);
-  final accessToken = await authoRepo.getAccessByToken();
+  final token = (headers['Authorization'] as String).split('Bearer')[1];
+  JWT.verify(token, SecretKey('dart'));
+  final accessToken = await authoRepo.getAccessByToken(token);
+
   return Response(body: 'This is a new route!');
 }

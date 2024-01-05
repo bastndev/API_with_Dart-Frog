@@ -31,15 +31,20 @@ class AuthRepository {
     await db.execute(sql, <String, dynamic>{});
   }
 
-  getAccessByToken() {}
-
-/*   Future<AccessToken> getAccessByToken(dynamic token) async {
+  getAccessByToken(String token) async {
     final sql = 'select * from access_tokens where'
         'token  = "${token}"limit 1';
-    final results = await db.execute(sql, <String, dynamic>{});
-    if (results.rows.isEmpty) {
-      throw const NotFoundException('Missing access token');
-    }
-    return AccessToken.fromMap(results.rows.first.typedAssoc());
-  } */
+    final results = await db.execute(sql,<String, dynamic>{});
+    
+  }
+
+  // Future<AccessToken> getAccessByToken(String token) async {
+  //   final sql = 'select * from access_tokens where'
+  //       'token  = "${token}"limit 1';
+  //   final results = await db.execute(String, sql);
+  //   if (results.rows.isEmpty) {
+  //     throw const NotFoundException('Missing access token');
+  //   }
+  //   return AccessToken.fromMap(results.rows.first.typedAssoc());
+  // }
 }
