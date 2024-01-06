@@ -16,4 +16,9 @@ class PetRepository {
       throw const ServerException('Something has gone wrong');
     }
   }
+
+  Future search(String sql)async {
+    final results = await db.execute(sql,<String, String>{});
+    return results.rows.map((e)=>  e.typedAssoc()).toList();
+  }
 }
