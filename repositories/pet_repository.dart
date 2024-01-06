@@ -46,6 +46,10 @@ class PetRepository {
         'SET name = "$name",'
         'age = "$age", type = "$type", id = "$id"';
 
-    await db.execute(sql,<String, String>{});
+    await db.execute(sql, <String, String>{});
+  }
+
+  Future<void> deleteOne(String id) async {
+    final sql = 'DELETE FROM pets WHERE id = "$id"';
   }
 }
