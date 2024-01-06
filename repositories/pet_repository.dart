@@ -26,6 +26,7 @@ class PetRepository {
 
   // ignore: inference_failure_on_function_return_type
 
+  // ignore: inference_failure_on_function_return_type
   getOne(String id) {}
   // update(Map<String, dynamic> body, String id) {}
 
