@@ -18,9 +18,22 @@ class PetRepository {
   }
 
   // ignore: strict_raw_type
-  Future search(String sql)async {
-    final results = await db.execute(sql,<String, String>{});
+  Future search(String sql) async {
+    final results = await db.execute(sql, <String, String>{});
     // ignore: inference_failure_on_untyped_parameter, avoid_dynamic_calls
-    return results.rows.map((e)=>  e.typedAssoc()).toList();
+    return results.rows.map((e) => e.typedAssoc()).toList();
   }
+
+  // ignore: inference_failure_on_function_return_type
+  getOne(String id) {}
+
+  // Future<Map<String, dynamic>> getOne(String id) async {
+  //   final sql = 'SELECT * FROM pets'
+  //       'WHERE id =  "$id"';
+  //   final result = await db.execute(sql);
+  //   if (result.rows.isEmpty) {
+  //     throw NotFoundsException('$id not found');
+  //   }
+  //   return result.rows.first.typedAssoc();
+  // }
 }

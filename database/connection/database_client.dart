@@ -25,10 +25,12 @@ class DatabaseClient {
   // ignore: inference_failure_on_function_return_type, always_declare_return_types, type_annotate_public_apis
   execute(String sql, Map<String, dynamic> map) {}
 
-/*   Future<IResultSet> execute(String sql []) async {
-    final conn = await _pool.getConnection();
-    final result = conn.query(sql);
-    await conn.close();
-    return result;
-  } */
+  // Future<IResultSet> execute(String sql, DatabaseClient db) async {
+  //   try {
+  //     final result = await db._pool.query(sql);
+  //     return result;
+  //   } catch (e) {
+  //     throw e;
+  //   }
+  // }
 }
