@@ -13,16 +13,7 @@ Future<Response> onRequest(
   final petRepository = context.read<PetRepository>();
   switch (method) {
     case HttpMethod.get:
-      try {
-        final result =  await petRepository.getOne(id);
-        return Response(body: jsonEncode(result));
-      } catch (err) {
-        if(err is BaseApiException){
-          return err.response();
-        }else{
-          return Response(statusCode: 500, body: 'something went wrong');
-        }
-      }
+      
     case HttpMethod.put:
     case HttpMethod.delete:
     default:
@@ -33,4 +24,17 @@ Future<Response> onRequest(
         ),
       );
   }
+}
+
+Future<Response> _getHandler(RequestContext context, PetRepository petRepository, String id) async {
+  try {
+        final result =  await petRepository.getOne(id);
+        return Response(body: jsonEncode(result));
+      } catch (err) {
+        if(err is BaseApiException){
+          return err.response();
+        }else{
+          return Response(statusCode: 500, body: 'something went wrong');
+        }
+      }
 }
