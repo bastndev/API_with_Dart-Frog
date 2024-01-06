@@ -42,10 +42,11 @@ class PetRepository {
   // }
 
   Future<void> update(Map<String, dynamic> body, String id) async {
-    var {'name': name, 'age': age, 'type': type, 'id': id} = body;
+    var {'name': name, 'age': age, 'type': type,} = body;
     final sql = 'UPDATE pets'
         'SET name = "$name",'
-        'age = "$age", type = "$type", id = "$id"';
+        'age = "$age", type = "$type", id'
+        ' WHERE id = "$id"';
     try {
       await db.execute(sql, <String, String>{});
     } catch (err) {
