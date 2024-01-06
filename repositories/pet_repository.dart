@@ -57,7 +57,7 @@ class PetRepository {
     final sql = 'DELETE FROM pets WHERE id = "$id"';
     try {
       final result =await db.execute(sql, <String, dynamic>{});
-      if(result.affectedRows == 0){
+      if(result.affectedRows.toInt() == 0){
         throw NotFoundException('$id Not found');
       }
 
