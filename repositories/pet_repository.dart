@@ -45,12 +45,19 @@ class PetRepository {
     final sql = 'UPDATE pets'
         'SET name = "$name",'
         'age = "$age", type = "$type", id = "$id"';
-
-    await db.execute(sql, <String, String>{});
+    try {
+      await db.execute(sql, <String, String>{});
+    } catch (err) {
+      throw const ServerException('Algo salio mal');
+    }
   }
 
   Future<void> deleteOne(String id) async {
     final sql = 'DELETE FROM pets WHERE id = "$id"';
-    await db.execute(sql, <String, String>{});
+    try {
+      await db.execute(sql, <String, String>{});
+    } catch (err) {
+      throw const ServerException('Algo salio mal');
+    }
   }
 }
