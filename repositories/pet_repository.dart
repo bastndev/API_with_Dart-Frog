@@ -17,8 +17,10 @@ class PetRepository {
     }
   }
 
+  // ignore: strict_raw_type
   Future search(String sql)async {
     final results = await db.execute(sql,<String, String>{});
+    // ignore: inference_failure_on_untyped_parameter, avoid_dynamic_calls
     return results.rows.map((e)=>  e.typedAssoc()).toList();
   }
 }
