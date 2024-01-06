@@ -1,6 +1,7 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import '../database/connection/database_client.dart';
+import '../exections/not_foun_exceptions.dart';
 import '../exections/server_exception.dart';
 
 class PetRepository {
@@ -55,7 +56,11 @@ class PetRepository {
   Future<void> deleteOne(String id) async {
     final sql = 'DELETE FROM pets WHERE id = "$id"';
     try {
-      await db.execute(sql, <String, String>{});
+      final result =await db.execute(sql, <String, dynamic>{});
+      if(result.affectedRows == 0){
+        throw NotFoundException('$id Not found');
+      }
+
     } catch (err) {
       throw const ServerException('Algo salio mal');
     }
