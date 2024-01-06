@@ -14,7 +14,11 @@ Future<Response> onRequest(RequestContext context) async {
       print('Clients: ${clients.values.length}');
     }
     channel.stream.listen((message) {
-      
+      if(message is String){
+        for(final client in clients.values){
+          client.sink.add(message);
+        }
+      }
     });
   });
   return handler(context);
