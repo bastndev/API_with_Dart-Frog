@@ -51,5 +51,6 @@ class PetRepository {
 
   Future<void> deleteOne(String id) async {
     final sql = 'DELETE FROM pets WHERE id = "$id"';
+    await db.execute(sql, <String, String>{});
   }
 }
