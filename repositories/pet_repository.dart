@@ -56,11 +56,23 @@ class PetRepository {
   Future<void> deleteOne(String id) async {
     final sql = 'DELETE FROM pets WHERE id = "$id"';
     try {
-      final result =await db.execute(sql, <String, dynamic>{});
-      if(result.affectedRows.toInt() == 0){
+      final result = await db.execute(sql, <String, dynamic>{});
+      if (result.affectedRows.toInt() == 0) {
         throw NotFoundException('$id Not found');
       }
+    } catch (err) {
+      throw const ServerException('Algo salio mal');
+    }
+  }
 
+  Future<void> adopt(String petId, String userId) async {
+    final sql = 'UPDATE pets set adopted_by = "$userId" where id = $petId"';
+    await db.execute(sql, <String, dynamic>{});
+    try {
+      final result = await db.execute(sql, <String, dynamic>{});
+      if (result.affectedRows.toInt() == 0) {
+        throw NotFoundException('$userId Not found');
+      }
     } catch (err) {
       throw const ServerException('Algo salio mal');
     }
