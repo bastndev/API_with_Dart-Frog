@@ -9,7 +9,13 @@ Future<Response> onRequest(RequestContext context) async {
       '${connectionInfo.remoteAddress}:${connectionInfo.remotePort}';
 
   final handler = webSocketHandler((channel, protocol) {
-    // TODO: react to new connections.
+    if (clients[fullAddress] == null) {
+      clients[fullAddress] = channel;
+      print('Clients: ${clients.values.length}');
+    }
+    channel.stream.listen((message) {
+      
+    });
   });
   return handler(context);
 }
