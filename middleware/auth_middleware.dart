@@ -19,14 +19,16 @@ Middleware bearerAuthorizationMiddleware() {
       try {
         final jwtManager = context.read<JWTManager>();
         final jwt = jwtManager.verify(token);
-        final uidMap = jwt.payload;
-        print(uidMap);
+        final uidMap = jwt.payload as Map<String, dynamic>;
+        var {'uid': userID} = uidMap;
+
+        return handler(context.provide<String>(() => userID as String));
       } catch (error) {
         return Response(
             statusCode: 400, body: jsonEncode({'error': 'No valid petition'}));
       }
 
-      return handler(context);
+      // return handler(context);
     };
   };
 }
