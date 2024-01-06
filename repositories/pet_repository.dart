@@ -25,7 +25,9 @@ class PetRepository {
   }
 
   // ignore: inference_failure_on_function_return_type
+
   getOne(String id) {}
+  // update(Map<String, dynamic> body, String id) {}
 
   // Future<Map<String, dynamic>> getOne(String id) async {
   //   final sql = 'SELECT * FROM pets'
@@ -36,4 +38,13 @@ class PetRepository {
   //   }
   //   return result.rows.first.typedAssoc();
   // }
+
+  Future<void> update(Map<String, dynamic> body, String id) async {
+    var {'name': name, 'age': age, 'type': type, 'id': id} = body;
+    final sql = 'UPDATE pets'
+        'SET name = "$name",'
+        'age = "$age", type = "$type", id = "$id"';
+
+    await db.execute(sql,<String, String>{});
+  }
 }

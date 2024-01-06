@@ -13,8 +13,23 @@ Future<Response> onRequest(
   final petRepository = context.read<PetRepository>();
   switch (method) {
     case HttpMethod.get:
-    return _getHandler(context, petRepository, id);
+      return _getHandler(context, petRepository, id);
     case HttpMethod.put:
+      final body = await context.request.json();
+      if (body == null) {
+        return Response(
+          statusCode: 400,
+          body: jsonEncode({'error': 'Bad request'}),
+        );
+      }
+      if (!_checkPutBody(body as Map<String, dynamic>)) {
+        return Response(
+          statusCode: 400,
+          body: jsonEncode({'error': 'Bad request'}),
+        );
+      }
+      await petRepository.update(body, id);
+      return Response(statusCode: 200 , body: jsonEncode({'success': true}));
     case HttpMethod.delete:
     default:
       return Response(
@@ -41,4 +56,15 @@ Future<Response> _getHandler(
       return Response(statusCode: 500, body: 'something went wrong');
     }
   }
+}
+
+bool _checkPutBody(Map<String, dynamic> body) {
+  final allowedFields = ['name', 'age', 'type'];
+
+  for (final field in allowedFields) {
+    if (body[field] == null) {
+      return false;
+    }
+  }
+  return true;
 }
