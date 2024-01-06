@@ -8,6 +8,9 @@ import '../utils/jwt_manager.dart';
 Middleware bearerAuthorizationMiddleware() {
   return (handler) {
     return (context) {
+      if (context.request.uri.path == '/pets/ws/adopted') {
+        return handler(context);
+      }
       final headers = context.request.headers;
       if (headers['Authorization'] == null ||
           !headers['Authorization']!.startsWith('Bearer')) {
