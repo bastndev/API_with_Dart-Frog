@@ -29,8 +29,17 @@ Future<Response> onRequest(
         );
       }
       await petRepository.update(body, id);
-      return Response(statusCode: 200 , body: jsonEncode({'success': true}));
+      return Response(statusCode: 200, body: jsonEncode({'success': true}));
     case HttpMethod.delete:
+      try {
+        await petRepository.deleteOne(id);
+        return Response(body: jsonEncode({'success': true}));
+      } catch (err) {
+        if(err is BaseApiException){
+          return err.response();
+        }
+        return Response(statusCode: 500, body: 'Algo salio mal');
+      }
     default:
       return Response(
         statusCode: 405,
