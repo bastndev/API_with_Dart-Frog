@@ -7,12 +7,12 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
+  dart_frog_web_socket: ^1.0.0
   crypto: ^3.0.3
   mysql_client: ^0.0.27
   dart_frog: ^1.0.0
   uuid: ^4.3.1
   dart_jsonwebtoken: ^2.12.2
-  dart_frog_web_socket: ^1.0.0
 
 dev_dependencies:
   mocktail: ^1.0.0
